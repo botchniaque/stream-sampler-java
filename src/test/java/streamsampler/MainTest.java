@@ -99,7 +99,7 @@ class MainTest {
 
                 sampleStream(in, out, 5, rnd);
 
-                Assertions.assertEquals("ﾂￃﾤￄￅ", outStream.toString());
+                Assertions.assertEquals("ﾂￃﾄￄￅ", outStream.toString());
             }
 
             @Test

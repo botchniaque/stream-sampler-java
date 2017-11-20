@@ -134,17 +134,23 @@ public class Main {
         }
 
         static Map<Byte, Long> readInputStream(InputStream s) {
-            Map<Byte, Long> counters = new HashMap<>();
+            long[] countersArray = new long[256];
             byte EOS = (byte) -1;
             try {
-                Byte consumedByte = (byte) s.read();
+                Integer consumedByte = s.read();
                 while (consumedByte != EOS) {
-                    counters.merge(consumedByte, 1L, (old, n) -> old + 1);
-                    consumedByte = (byte) s.read();
+                    countersArray[consumedByte]++;
+                    consumedByte = s.read();
                 }
 
             } catch (IOException e) {
                 throw new RuntimeException("Error while reading a stream", e);
+            }
+
+            Map<Byte, Long> counters = new HashMap<>();
+            for (int i = 0; i < countersArray.length; i++) {
+                if (countersArray[i] != 0)
+                    counters.put((byte) i, countersArray[i]);
             }
             return counters;
         }
